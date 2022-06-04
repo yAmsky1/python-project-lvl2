@@ -19,5 +19,6 @@ def main():
     file_path2 = str(args.second_file)
     print(generate_diff(file_path1, file_path2))
 
+
 if __name__ == '__main__':
     main()

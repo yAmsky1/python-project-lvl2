@@ -11,7 +11,10 @@ publish:
 	poetry publish --dry-run
 
 lint:
-	poetry run flake8 brain_games
+	poetry run flake8 gendiff
+
+pytest:
+	poetry run pytest
 
 package-install:
 	python3 -m pip install --user --force-reinstall dist/*.whl
