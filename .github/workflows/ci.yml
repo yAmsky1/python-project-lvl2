@@ -31,5 +31,5 @@ jobs:
       - name: Send reporter
         env:
           GITHUB_TOKEN: ${{ secrets.TEST_REPORTER_ID }}
-        run: ./cc-test-reporter after-build -r "GITHUB_TOKEN"
+        run: ./cc-test-reporter after-build -r "$GITHUB_TOKEN"
 
