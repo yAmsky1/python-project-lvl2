@@ -13,8 +13,11 @@ publish:
 lint:
 	poetry run flake8 gendiff
 
-pytest:
+test:
 	poetry run pytest
 
-package-install:
+package-reinstall:
 	python3 -m pip install --user --force-reinstall dist/*.whl
+
+package-install:
+	python3 -m pip install --user dist/*.whl
