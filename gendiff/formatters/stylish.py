@@ -1,4 +1,4 @@
-from gendiff.tags import ADDED, REMOVED, UNCHANGED, CHANGED, NESTED
+from gendiff.tags import ADDED, REMOVED, UNCHANGED, CHANGED
 
 
 REPLACER = '  '
