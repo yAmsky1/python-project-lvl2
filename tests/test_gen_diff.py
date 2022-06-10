@@ -1,39 +1,29 @@
-# import pytest
-import gendiff
-from gendiff import generate_diff, get_format
+from gendiff import generate_diff
+import pytest
 
 
-def test_generate_diff():
-    with open('tests/fixtures/test_generate_diff_result') as test:
-        result = ''
-        for i, line in enumerate(test, 1):
-            result += line
-    assert generate_diff('tests/fixtures/file1.json', 'tests/fixtures/file2.json') == result
+@pytest.fixture()
+def paths_json():
+    return './tests/fixtures/file1.json', './tests/fixtures/file2.json'
 
 
-def test_generate_diff2():
-    with open('tests/fixtures/test_generate_diff_result2') as test:
-        result = ''
-        for i, line in enumerate(test, 1):
-            result += line
-    assert generate_diff('tests/fixtures/file1.json', 'tests/fixtures/file1.json') == result
+@pytest.fixture()
+def paths_yaml():
+    return './tests/fixtures/file1.yaml', './tests/fixtures/file2.yaml'
 
 
-def test_generate_diff3():
-    with open('tests/fixtures/test_generate_diff_result3') as test:
-        result = ''
-        for i, line in enumerate(test, 1):
-            result += line
-    assert generate_diff('tests/fixtures/file1.json', 'tests/fixtures/empty.json') == result
+@pytest.fixture()
+def paths_mix():
+    return './tests/fixtures/file1.json', './tests/fixtures/file2.yaml'
 
 
-def test_generate_diff4():
-    with open('tests/fixtures/test_generate_diff_result') as test:
-        result = ''
-        for i, line in enumerate(test, 1):
-            result += line
-    assert generate_diff('tests/fixtures/file1.yaml', 'tests/fixtures/file2.yaml') == result
+@pytest.fixture()
+def result():
+    with open('./tests/fixtures/result.txt') as res_file:
+        return res_file.read()
 
 
-def test_get_format():
-    assert get_format('') is None
+def test_gen_diff(paths_json, paths_yaml, paths_mix, result):
+    assert generate_diff(*paths_json) == result
+    assert generate_diff(*paths_yaml) == result
+    assert generate_diff(*paths_mix) == result

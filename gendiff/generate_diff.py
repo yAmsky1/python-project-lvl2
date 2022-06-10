@@ -1,8 +1,17 @@
 import json
 import yaml
+from gendiff.formatters.formatter import get_formatter
+from gendiff.tags import ADDED, REMOVED, UNCHANGED, CHANGED, NESTED
 
 
-def get_format(file_path):
+def generate_diff(file_path1: str, file_path2: str, form='stylish') -> str:
+    file1 = parse_file(file_path1)
+    file2 = parse_file(file_path2)
+    diff = check_diff(file1, file2)
+    return get_formatter(diff, form)
+
+
+def parse_file(file_path):
     file_types = {
         "json": json.load,
         "yml": yaml.safe_load,
@@ -13,23 +22,22 @@ def get_format(file_path):
             return file_types.get(file_type)(open(file_path))
 
 
-def generate_diff(file_path1: str, file_path2: str) -> str:
-    diff = []
-    file1 = get_format(file_path1)
-    file2 = get_format(file_path2)
-    for key in sorted(file1.keys()):
-        if file1.get(key) != file2.get(key):
-            diff.append(f"    - {key}: {value_formatter(file1.get(key))}")
+def check_diff(file1, file2):
+    diff = {}
+    added_keys = list(file2.keys() - file1.keys())
+    removed_keys = list(file1.keys() - file2.keys())
+    common_keys = list(file1.keys() & file2.keys())
+    for key in added_keys:
+        diff[key] = [ADDED, file2.get(key)]
+    for key in removed_keys:
+        diff[key] = [REMOVED, file1.get(key)]
+    for key in common_keys:
+        value1 = file1.get(key)
+        value2 = file2.get(key)
+        if isinstance(value1, dict) and isinstance(value2, dict):
+            diff[key] = [NESTED, check_diff(value1, value2)]
+        elif value1 == value2:
+            diff[key] = [UNCHANGED, value1]
         else:
-            diff.append(f"      {key}: {value_formatter(file1.get(key))}")
-    for key in sorted(file2.keys()):
-        if file2.get(key) != file1.get(key):
-            diff.append(f"    + {key}: {value_formatter(file2.get(key))}")
-    diff = '{\n' + '\n'.join(diff) + '\n}'
+            diff[key] = [CHANGED, value1, value2]
     return diff
-
-
-def value_formatter(value):
-    if isinstance(value, bool):
-        value = str(value).lower()
-    return value
