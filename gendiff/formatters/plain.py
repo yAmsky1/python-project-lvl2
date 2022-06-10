@@ -6,7 +6,9 @@ REMOVED_PROP = 'Property {0} was removed'
 CHANGED_PROP = 'Property {0} was updated. From {1} to {2}'
 
 
-def format_to_plain(diff, path=None):
+# Линтер жалуется "C901 'format_to_plain' is too complex (8)".
+# Пока не придумал как упростить :(
+def format_to_plain(diff, path=None):  # noqa: C901
     if path is None:
         path = []
     result = []
