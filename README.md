@@ -18,4 +18,4 @@
 
 ### output format - json
 
-[![asciicast](https://asciinema.org/a/7QMRDsEPpjZLZuhkHaeBwZk70.svg)](https://asciinema.org/a/7QMRDsEPpjZLZuhkHaeBwZk70)
+[![asciicast](https://asciinema.org/a/WBVOBpv863BVy4Ny0TTyOPDV9.svg)](https://asciinema.org/a/WBVOBpv863BVy4Ny0TTyOPDV9)
