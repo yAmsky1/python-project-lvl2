@@ -4,6 +4,23 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/874f8487ae55e1a59066/test_coverage)](https://codeclimate.com/github/yAmsky1/python-project-lvl2/test_coverage)
 [![Linter](https://github.com/yamsky1/python-project-lvl2/actions/workflows/ci.yml/badge.svg)](https://github.com/yamsky1/python-project-lvl2/actions/workflows/ci.yml)
 
+## Вычислитель отличий
+#### CLI - утилита, определяющая разницу между двумя структурами данных.
+
+### Установка:
+
+- make install
+- make build
+- make publish
+- make package-install
+
+### Запуск:
+
+- Справочная информация: `gendiff -h`
+- Доступные форматы вывода: `gendiff -f {stylish, plain, json}` (по-умолчанию slylish)
+- Вызов программы: `gendiff --format path/to/file1 path/to/file2`
+
+### Примеры работы программы:
 
 [![asciicast](https://asciinema.org/a/J48fTSVNqHVLMSHgJt35JHhqr.svg)](https://asciinema.org/a/J48fTSVNqHVLMSHgJt35JHhqr)
 [![asciicast](https://asciinema.org/a/5dWrjEYM9r7RB5x4lfHXeddE7.svg)](https://asciinema.org/a/5dWrjEYM9r7RB5x4lfHXeddE7)
@@ -19,3 +36,7 @@
 ### output format - json
 
 [![asciicast](https://asciinema.org/a/WBVOBpv863BVy4Ny0TTyOPDV9.svg)](https://asciinema.org/a/WBVOBpv863BVy4Ny0TTyOPDV9)
+
+### Контакты:
+- yamsky.xbox@gmail.com
+- https://t.me/nihuyamsky
