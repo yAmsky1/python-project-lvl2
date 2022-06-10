@@ -15,3 +15,7 @@
 ### output format - plain
 
 [![asciicast](https://asciinema.org/a/lqCEbsEfKWtcNa3GeV4dDcwkB.svg)](https://asciinema.org/a/lqCEbsEfKWtcNa3GeV4dDcwkB)
+
+### output format - json
+
+[![asciicast](https://asciinema.org/a/7QMRDsEPpjZLZuhkHaeBwZk70.svg)](https://asciinema.org/a/7QMRDsEPpjZLZuhkHaeBwZk70)
