@@ -1,5 +1,5 @@
 ADDED = '+'
 REMOVED = '-'
-UNCHANGED = ' '
-NESTED = ' '
-CHANGED = ''
+UNCHANGED = '0'
+NESTED = 'Y'
+CHANGED = '1'

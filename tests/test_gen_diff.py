@@ -18,12 +18,24 @@ def paths_mix():
 
 
 @pytest.fixture()
-def result():
-    with open('./tests/fixtures/result.txt') as res_file:
+def result_stylish():
+    with open('./tests/fixtures/result_stylish.txt') as res_file:
         return res_file.read()
 
 
-def test_gen_diff(paths_json, paths_yaml, paths_mix, result):
-    assert generate_diff(*paths_json) == result
-    assert generate_diff(*paths_yaml) == result
-    assert generate_diff(*paths_mix) == result
+@pytest.fixture()
+def result_plain():
+    with open('./tests/fixtures/result_plain.txt') as res_file:
+        return res_file.read()
+
+
+def test_gen_diff_stylish(paths_json, paths_yaml, paths_mix, result_stylish):
+    assert generate_diff(*paths_json) == result_stylish
+    assert generate_diff(*paths_yaml) == result_stylish
+    assert generate_diff(*paths_mix) == result_stylish
+
+
+def test_gen_diff_plain(paths_json, paths_yaml, paths_mix, result_plain):
+    assert generate_diff(*paths_json, form='plain') == result_plain
+    assert generate_diff(*paths_yaml, form='plain') == result_plain
+    assert generate_diff(*paths_mix, form='plain') == result_plain

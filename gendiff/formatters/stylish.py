@@ -1,6 +1,11 @@
-from gendiff.tags import ADDED, REMOVED, UNCHANGED, CHANGED
+from gendiff.tags import ADDED, REMOVED, UNCHANGED, CHANGED, NESTED
 
-
+TAGS = {
+    ADDED: '+',
+    REMOVED: '-',
+    UNCHANGED: ' ',
+    NESTED: ' '
+}
 REPLACER = '  '
 SPACES_COUNT = 1
 
@@ -25,8 +30,8 @@ def gen_string(tag, key, value, depth):
     indent = depth * REPLACER * SPACES_COUNT
     if isinstance(value, dict):
         result = format_to_stylish(value, depth)
-        return f"{indent}{tag} {key}: {result}"
-    return f"{indent}{tag} {key}: {edit_value(value)}"
+        return f"{indent}{TAGS.get(tag)} {key}: {result}"
+    return f"{indent}{TAGS.get(tag)} {key}: {edit_value(value)}"
 
 
 def edit_value(value):
