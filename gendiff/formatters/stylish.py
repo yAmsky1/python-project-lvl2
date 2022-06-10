@@ -6,7 +6,7 @@ TAGS = {
     UNCHANGED: ' ',
     NESTED: ' '
 }
-REPLACER = '  '
+REPLACER = ' '
 SPACES_COUNT = 1
 
 
