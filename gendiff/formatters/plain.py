@@ -1,9 +1,9 @@
 from gendiff.tags import ADDED, REMOVED, CHANGED, NESTED
 
 
-ADDED_PROP = 'Property {0} was added with value: {1}'
-REMOVED_PROP = 'Property {0} was removed'
-CHANGED_PROP = 'Property {0} was updated. From {1} to {2}'
+ADDED_PROP = "Property '{0}' was added with value: {1}"
+REMOVED_PROP = "Property '{0}' was removed"
+CHANGED_PROP = "Property '{0}' was updated. From {1} to {2}"
 
 
 # Линтер жалуется "C901 'format_to_plain' is too complex (8)".
@@ -55,4 +55,6 @@ def edit_value(value):
         return 'null'
     if isinstance(value, dict):
         return '[complex value]'
+    if isinstance(value, str):
+        return f"'{value}'"
     return value
