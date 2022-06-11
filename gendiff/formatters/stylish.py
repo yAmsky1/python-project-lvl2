@@ -6,8 +6,8 @@ TAGS = {
     UNCHANGED: ' ',
     NESTED: ' '
 }
-REPLACER = '   '
-SPACES_COUNT = 1
+REPLACER = ' '
+SPACES_COUNT = 2
 
 
 def format_to_stylish(diff, depth=0):
@@ -29,7 +29,7 @@ def format_to_stylish(diff, depth=0):
 def gen_string(tag, key, value, depth):
     indent = depth * REPLACER * SPACES_COUNT
     if isinstance(value, dict):
-        result = format_to_stylish(value, depth)
+        result = format_to_stylish(value, depth + 1)
         return f"{indent}{TAGS.get(tag)} {key}: {result}"
     return f"{indent}{TAGS.get(tag)} {key}: {edit_value(value)}"
 
