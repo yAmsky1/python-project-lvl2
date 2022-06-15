@@ -7,13 +7,10 @@ ERROR = ' Invalid format choice: {0} (choose from "stylish", "plain", "json") '
 
 
 def get_formatter(diff, format_style):
-    forms = {
+    format_styles = {
         'stylish': format_to_stylish,
         'plain': format_to_plain,
         'json': format_to_json
     }
-    if forms.get(format_style):
-        return forms.get(format_style)(diff)
-    else:
-        return ERROR.format(format_style)
-
+    formatter = format_styles.get(format_style)
+    return formatter(diff) if formatter else ERROR.format(format_style)
