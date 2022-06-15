@@ -1,4 +1,4 @@
-from gendiff.tags import ADDED, REMOVED, UNCHANGED, CHANGED, NESTED
+from gendiff.diff_finder import ADDED, REMOVED, UNCHANGED, CHANGED, NESTED
 
 TAGS = {
     ADDED: '+',
@@ -31,10 +31,10 @@ def gen_string(tag, key, value, depth):
     if isinstance(value, dict):
         result = format_to_stylish(value, depth + 1)
         return f"{indent}{TAGS.get(tag)} {key}: {result}"
-    return f"{indent}{TAGS.get(tag)} {key}: {edit_value(value)}"
+    return f"{indent}{TAGS.get(tag)} {key}: {format_value(value)}"
 
 
-def edit_value(value):
+def format_value(value):
     if isinstance(value, bool):
         value = str(value).lower()
     if value is None:
