@@ -10,29 +10,31 @@ def format_to_plain(diff, path=None):  # noqa: C901
     if path is None:
         path = []
     result = []
+
     for key, value in sorted(diff.items()):
         path.append(key)
-        tag, *rest_values = value
+        tag = value.get('tag')
+
         if tag == NESTED:
-            result.append(
-                format_to_plain(
-                    rest_values[0],
-                    path
-                )
-            )
+            value = value.get('nested')
+            result.append(format_to_plain(value, path))
+
         if tag == CHANGED:
+            old_value = value.get('old_value')
+            new_value = value.get('new_value')
             result.append(
                 CHANGED_PROP.format(
                     '.'.join(path),
-                    format_value(rest_values[0]),
-                    format_value(rest_values[1])
+                    format_value(old_value),
+                    format_value(new_value)
                 )
             )
         if tag == ADDED:
+            value = value.get('new_value')
             result.append(
                 ADDED_PROP.format(
                     '.'.join(path),
-                    format_value(rest_values[0])
+                    format_value(value)
                 )
             )
         if tag == REMOVED:
@@ -46,12 +48,17 @@ def format_to_plain(diff, path=None):  # noqa: C901
 
 
 def format_value(value):
+
     if isinstance(value, bool):
         return str(value).lower()
+
     if value is None:
         return 'null'
+
     if isinstance(value, dict):
         return '[complex value]'
+
     if isinstance(value, str):
         return f"'{value}'"
+
     return value

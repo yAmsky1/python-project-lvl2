@@ -10,17 +10,58 @@ def check_diff(data1, data2):
     added_keys = list(data2.keys() - data1.keys())
     removed_keys = list(data1.keys() - data2.keys())
     common_keys = list(data1.keys() & data2.keys())
+
     for key in added_keys:
-        diff[key] = [ADDED, data2.get(key)]
+        diff[key] = generate_branch(
+            key,
+            ADDED,
+            new_value=data2.get(key)
+        )
+
     for key in removed_keys:
-        diff[key] = [REMOVED, data1.get(key)]
+        diff[key] = generate_branch(
+            key,
+            REMOVED,
+            old_value=data1.get(key)
+        )
+
     for key in common_keys:
-        value1 = data1.get(key)
-        value2 = data2.get(key)
-        if isinstance(value1, dict) and isinstance(value2, dict):
-            diff[key] = [NESTED, check_diff(value1, value2)]
-        elif value1 == value2:
-            diff[key] = [UNCHANGED, value1]
+        old_value = data1.get(key)
+        new_value = data2.get(key)
+
+        if isinstance(old_value, dict) and isinstance(new_value, dict):
+            diff[key] = generate_branch(
+                key,
+                NESTED,
+                nested=check_diff(old_value, new_value)
+            )
+
+        elif old_value == new_value:
+            diff[key] = generate_branch(
+                key,
+                UNCHANGED,
+                old_value=old_value
+            )
+
         else:
-            diff[key] = [CHANGED, value1, value2]
+            diff[key] = generate_branch(
+                key,
+                CHANGED,
+                old_value=old_value,
+                new_value=new_value
+            )
+
     return diff
+
+
+def generate_branch(key, tag, old_value=None, new_value=None, nested=None):
+    branch = {}
+    branch.update(
+        {
+            'tag': tag,
+            'old_value': old_value,
+            'new_value': new_value,
+            'nested': nested
+        }
+    )
+    return branch
