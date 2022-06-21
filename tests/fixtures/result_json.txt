@@ -1,116 +1,148 @@
 [
   {
     "key": "common",
-    "tag": "NESTED",
-    "value": [
+    "nested": [
       {
         "key": "follow",
-        "tag": "ADDED",
-        "value": false
+        "nested": null,
+        "new_value": false,
+        "old_value": null,
+        "tag": "ADDED"
       },
       {
         "key": "setting1",
-        "tag": "UNCHANGED",
-        "value": "Value 1"
+        "nested": null,
+        "new_value": null,
+        "old_value": "Value 1",
+        "tag": "UNCHANGED"
       },
       {
         "key": "setting2",
-        "tag": "REMOVED",
-        "value": 200
+        "nested": null,
+        "new_value": null,
+        "old_value": 200,
+        "tag": "REMOVED"
       },
       {
         "key": "setting3",
+        "nested": null,
         "new_value": null,
         "old_value": true,
         "tag": "CHANGED"
       },
       {
         "key": "setting4",
-        "tag": "ADDED",
-        "value": "blah blah"
+        "nested": null,
+        "new_value": "blah blah",
+        "old_value": null,
+        "tag": "ADDED"
       },
       {
         "key": "setting5",
-        "tag": "ADDED",
-        "value": {
+        "nested": null,
+        "new_value": {
           "key5": "value5"
-        }
+        },
+        "old_value": null,
+        "tag": "ADDED"
       },
       {
         "key": "setting6",
-        "tag": "NESTED",
-        "value": [
+        "nested": [
           {
             "key": "doge",
-            "tag": "NESTED",
-            "value": [
+            "nested": [
               {
                 "key": "wow",
+                "nested": null,
                 "new_value": "so much",
                 "old_value": "",
                 "tag": "CHANGED"
               }
-            ]
+            ],
+            "new_value": null,
+            "old_value": null,
+            "tag": "NESTED"
           },
           {
             "key": "key",
-            "tag": "UNCHANGED",
-            "value": "value"
+            "nested": null,
+            "new_value": null,
+            "old_value": "value",
+            "tag": "UNCHANGED"
           },
           {
             "key": "ops",
-            "tag": "ADDED",
-            "value": "vops"
+            "nested": null,
+            "new_value": "vops",
+            "old_value": null,
+            "tag": "ADDED"
           }
-        ]
+        ],
+        "new_value": null,
+        "old_value": null,
+        "tag": "NESTED"
       }
-    ]
+    ],
+    "new_value": null,
+    "old_value": null,
+    "tag": "NESTED"
   },
   {
     "key": "group1",
-    "tag": "NESTED",
-    "value": [
+    "nested": [
       {
         "key": "baz",
+        "nested": null,
         "new_value": "bars",
         "old_value": "bas",
         "tag": "CHANGED"
       },
       {
         "key": "foo",
-        "tag": "UNCHANGED",
-        "value": "bar"
+        "nested": null,
+        "new_value": null,
+        "old_value": "bar",
+        "tag": "UNCHANGED"
       },
       {
         "key": "nest",
+        "nested": null,
         "new_value": "str",
         "old_value": {
           "key": "value"
         },
         "tag": "CHANGED"
       }
-    ]
+    ],
+    "new_value": null,
+    "old_value": null,
+    "tag": "NESTED"
   },
   {
     "key": "group2",
-    "tag": "REMOVED",
-    "value": {
+    "nested": null,
+    "new_value": null,
+    "old_value": {
       "abc": 12345,
       "deep": {
         "id": 45
       }
-    }
+    },
+    "tag": "REMOVED"
   },
   {
     "key": "group3",
-    "tag": "ADDED",
-    "value": {
+    "nested": null,
+    "new_value": {
       "deep": {
         "id": {
           "number": 45
         }
       },
       "fee": 100500
-    }
+    },
+    "old_value": null,
+    "tag": "ADDED"
   }
 ]

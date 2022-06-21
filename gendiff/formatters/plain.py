@@ -6,22 +6,28 @@ REMOVED_PROP = "Property '{0}' was removed"
 CHANGED_PROP = "Property '{0}' was updated. From {1} to {2}"
 
 
-def format_to_plain(diff, path=None):  # noqa: C901
+def format_to_plain(diff):
+    return '\n'.join(prepare_for_plain(diff))
+
+
+def prepare_for_plain(diff, path=None):  # noqa: C901
+
     if path is None:
         path = []
     result = []
 
-    for key, value in sorted(diff.items()):
+    for node in diff:
+        key = node.get('key')
+        tag = node.get('tag')
         path.append(key)
-        tag = value.get('tag')
 
         if tag == NESTED:
-            value = value.get('nested')
-            result.append(format_to_plain(value, path))
+            value = node.get('nested')
+            result.extend(prepare_for_plain(value, path))
 
         if tag == CHANGED:
-            old_value = value.get('old_value')
-            new_value = value.get('new_value')
+            old_value = node.get('old_value')
+            new_value = node.get('new_value')
             result.append(
                 CHANGED_PROP.format(
                     '.'.join(path),
@@ -29,22 +35,25 @@ def format_to_plain(diff, path=None):  # noqa: C901
                     format_value(new_value)
                 )
             )
+
         if tag == ADDED:
-            value = value.get('new_value')
+            value = node.get('new_value')
             result.append(
                 ADDED_PROP.format(
                     '.'.join(path),
                     format_value(value)
                 )
             )
+
         if tag == REMOVED:
             result.append(
                 REMOVED_PROP.format(
                     '.'.join(path)
                 )
             )
+
         path.pop()
-    return '\n'.join(sorted(result))
+    return sorted(result)
 
 
 def format_value(value):
@@ -60,5 +69,4 @@ def format_value(value):
 
     if isinstance(value, str):
         return f"'{value}'"
-
     return value

@@ -10,55 +10,77 @@ TAGS = {
     NESTED: ' ',
     REPLACER: ' '
 }
+TEMPLATE_HEAD = "{indent}{tag} {key}: {{"
+TEMPLATE_TAIL = "  {indent}}}"
+TEMPLATE_VALUE = "{indent}{tag} {key}: {value}"
 
 
-def format_to_stylish(diff, depth=0):  # noqa: C901
-    indent = depth * REPLACER * SPACES_COUNT
-    result = []
-    for key, value in sorted(diff.items()):
-
-        if not isinstance(value, dict):
-            result.append(gen_string(REPLACER, key, value, depth + 1))
-
-        else:
-            tag = value.get('tag')
-
-            if tag == CHANGED:
-                old_value = value.get('old_value')
-                new_value = value.get('new_value')
-                result.append(gen_string(REMOVED, key, old_value, depth + 1))
-                result.append(gen_string(ADDED, key, new_value, depth + 1))
-
-            elif tag == UNCHANGED:
-                value = value.get('old_value')
-                result.append(gen_string(UNCHANGED, key, value, depth + 1))
-
-            elif tag == ADDED:
-                value = value.get('new_value')
-                result.append(gen_string(ADDED, key, value, depth + 1))
-
-            elif tag == REMOVED:
-                value = value.get('old_value')
-                result.append(gen_string(REMOVED, key, value, depth + 1))
-
-            elif tag == NESTED:
-                value = value.get('nested')
-                result.append(gen_string(NESTED, key, value, depth + 1))
-
-            else:
-                result.append(gen_string(REPLACER, key, value, depth + 1))
-
-    return '{\n' + '\n'.join(result) + '\n' + indent + '}'
+def format_to_stylish(diff):
+    return '\n'.join(prepare_for_stylish(diff))
 
 
-def gen_string(tag, key, value, depth):
-    indent = depth * REPLACER * SPACES_COUNT
+def prepare_for_stylish(diff, depth=0):  # noqa: C901
 
-    if isinstance(value, dict):
-        result = format_to_stylish(value, depth + 1)
-        return f"{indent}{TAGS.get(tag)} {key}: {result}"
+    if depth == 0:
+        result = ["{"]
 
-    return f"{indent}{TAGS.get(tag)} {key}: {format_value(value)}"
+    else:
+        result = []
+
+    for node in diff:
+        tag = node.get('tag')
+        key = node.get('key')
+
+        if tag == CHANGED:
+            old_value = node.get('old_value')
+            new_value = node.get('new_value')
+            result.append(generate_string(REMOVED, key, old_value, depth + 1))
+            result.append(generate_string(ADDED, key, new_value, depth + 1))
+
+        elif tag == UNCHANGED:
+            value = node.get('old_value')
+            result.append(generate_string(UNCHANGED, key, value, depth + 1))
+
+        elif tag == ADDED:
+            value = node.get('new_value')
+            result.append(generate_string(ADDED, key, value, depth + 1))
+
+        elif tag == REMOVED:
+            value = node.get('old_value')
+            result.append(generate_string(REMOVED, key, value, depth + 1))
+
+        elif tag == NESTED:
+            value = node.get('nested')
+            result.append(generate_string(NESTED, key, value, depth + 1))
+
+    if depth == 0:
+        result.append("}")
+
+    return result
+
+
+def generate_string(tag, key, node, depth):
+    indent = (depth * REPLACER * SPACES_COUNT)
+    tag = TAGS.get(tag)
+
+    if isinstance(node, dict):
+        string = [TEMPLATE_HEAD.format(indent=indent, tag=tag, key=key)]
+
+        for key in node:
+            string.append(generate_string(REPLACER, key,
+                                          node[key], depth + 2))
+        string.append(TEMPLATE_TAIL.format(indent=indent))
+        return '\n'.join(string)
+
+    elif isinstance(node, list):
+        string = [TEMPLATE_HEAD.format(indent=indent, tag=tag, key=key)]
+        string.extend(prepare_for_stylish(node, depth + 1))
+        string.append(TEMPLATE_TAIL.format(indent=indent))
+        return '\n'.join(string)
+
+    else:
+        return TEMPLATE_VALUE.format(indent=indent, tag=tag,
+                                     key=key, value=format_value(node))
 
 
 def format_value(value):
@@ -68,5 +90,4 @@ def format_value(value):
 
     if value is None:
         return 'null'
-
     return value

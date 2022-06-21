@@ -6,7 +6,6 @@ from gendiff.formatters.json import format_to_json
 STYLISH = 'stylish'
 PLAIN = 'plain'
 JSON = 'json'
-ERROR = ' Invalid format choice: {0} (choose from "stylish", "plain", "json") '
 
 
 def get_formatter(diff, format_style):
@@ -16,4 +15,9 @@ def get_formatter(diff, format_style):
         JSON: format_to_json
     }
     formatter = format_values.get(format_style)
-    return formatter(diff) if formatter else ERROR.format(format_style)
+    if formatter:
+        return formatter(diff)
+    else:
+        raise Exception(
+            'Invalid format choice(choose from "stylish", "plain", "json")'
+        )
